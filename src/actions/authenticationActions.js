@@ -7,8 +7,8 @@ import {
     FETCH_FEATURE
 } from './actionTypes';
 
- const ROOT_URL = 'http://localhost:8090';
-//const ROOT_URL = 'https://peaceful-mesa-72076.herokuapp.com';
+ //const ROOT_URL = 'http://localhost:8090';
+const ROOT_URL = 'https://peaceful-mesa-72076.herokuapp.com';
 export const signinUser = ({ usernameOrEmail, password }) => {
     return (dispatch) => {
         const requestOptions = {
@@ -34,7 +34,7 @@ export const signinUser = ({ usernameOrEmail, password }) => {
                //localStorage.setItem('token', user.token);
 
                 // - redirect to the route '/feature'
-                browserHistory.push('/clients');
+                browserHistory.push('/');
 
             }).catch(() => {
                 // if request is bad...

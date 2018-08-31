@@ -2,8 +2,8 @@ class RequirementsApi {
 
   static getAllRequirements() {
     //const PROD_URL = `https://peaceful-mesa-72076.herokuapp.com/accounts`
-    const BASE_URL = `http://localhost:8090/synergy/api`
-    //const BASE_URL = `https://peaceful-mesa-72076.herokuapp.com/synergy/api`
+    //const BASE_URL = `http://localhost:8090/synergy/api`
+    const BASE_URL = `https://peaceful-mesa-72076.herokuapp.com/synergy/api`
     const request = new Request(BASE_URL+`/requirementses`, {
       method: 'GET',
       headers: new Headers({
