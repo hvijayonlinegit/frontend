@@ -5,14 +5,14 @@ import TextField from '@material-ui/core/TextField';
 // import Button from '@material-ui/core/Button';
 // import Save from '@material-ui/icons/Save';
 // import classNames from 'classnames';
+
+import MySnackbarContentWrapper from '../../common/MySnackContent';
 const styles = theme => ({
     root: {
         width: '100%',
-       // height: '100vh',
-        backgroundColor: theme.palette.background.paper,
-        borderLeft: '1px solid rgba(0, 0, 0, 0.12)',
         overflowY:'auto',
-       
+        maxHeight: '50vh',
+        minHeight: '50vh'
       },
   container: {
     display: 'flex',
@@ -79,7 +79,13 @@ class TextFields extends React.Component {
       }
     
       if(isEmpty(this.props.candidate.documents)){
-        return (<div> something went wrong</div>);
+        return (
+          <MySnackbarContentWrapper
+          variant="info"
+          className={classes.margin}
+          message="There are no Candidate details  to Show , Please add a candidate!"
+        />
+        );
       }
       else{
         return (

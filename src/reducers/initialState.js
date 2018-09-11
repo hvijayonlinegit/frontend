@@ -18,5 +18,6 @@ export default {
     }
   },
   requirements: {},
-  candidates : {}
+  candidates : {},
+  selectedRequirement:{}
 }

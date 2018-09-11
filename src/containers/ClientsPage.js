@@ -2,29 +2,55 @@ import React from 'react'
 
 import {connect} from 'react-redux'
 import {browserHistory} from 'react-router'
-import ClientsContainer from '../components/ClientsContainer';
 import PropTypes from 'prop-types';
-import AddClientModal from '../components/clients/CreateClientModal'
 import {bindActionCreators} from 'redux';
+
 import * as courseActions from '../actions/clientActions';
 import * as moreinfoActions from '../actions/moreinfoActions';
 import * as reqmoreinfoActions from '../actions/reqmoreinfoActions';
 import * as candmoreinfoActions from '../actions/candmoreinfoActions';
 import * as docmoreinfoActions from '../actions/docmoreinfoActions';
-import  '../components/clients/clientspage.css'
+import AddRequirementModal from '../components/requirements/CreateRequirementModal'
+import AddClientModal from '../components/clients/CreateClientModal'
+import ClientsWrapper from '../components/clients/ClientsWrapper';
+
 class ClientsPage extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
       client: {name: '', type: '', phone: '', team: '', address: ''},
-      modal: false
+      requirement:{
+				account_manager: 'string',
+				candidate_availability: 'string',
+				description: 'string',
+				exp_required: 'string',
+				id: 0,
+				pay_rate: 'string',
+				primary_skills: 'string',
+				rate: 'string',
+				recruiter_name: 'string',
+				secondary_skills: 'string',
+				seniority_level: 'string',
+				title: 'string',
+				type: 'string'
+			  },
+      modal: false,
+      reqmodal: false
     };
     this.handleModalOpen = this.handleModalOpen.bind(this);
     this.handleModalClose = this.handleModalClose.bind(this);
+
+    this.handleReqModalOpen = this.handleReqModalOpen.bind(this);
+    this.handleReqModalClose = this.handleReqModalClose.bind(this);
+    this.updateReqState = this.updateReqState.bind(this);
+    this.saveRequirement = this.saveRequirement.bind(this);
+
+
     this.redirect = this.redirect.bind(this);
     this.saveCat = this.saveCat.bind(this);
     this.updateCatState = this.updateCatState.bind(this);
+    
     this.handleRequirements = this.handleRequirements.bind(this);
     this.handleCandidates = this.handleCandidates.bind(this);
     this.handleDocuments = this.handleDocuments.bind(this);
@@ -36,7 +62,13 @@ class ClientsPage extends React.Component {
     this.props.actions.loadClients();
   }
 
-  
+  updateReqState(event) {
+    const field = event.target.name;
+    const requirement = this.state.requirement;
+    console.log(field+event.target.value);
+    requirement[field] = event.target.value;
+    return this.setState({requirement: requirement});
+  }
   updateCatState(event) {
     const field = event.target.name;
     const client = this.state.client;
@@ -48,6 +80,15 @@ class ClientsPage extends React.Component {
   redirect(client) {
     browserHistory.push(`/clients`);
   }
+  saveRequirement(event) {
+    event.preventDefault();
+
+    this.props.moreinfoactions.createRequirement(this.state.requirement).then((requirement) => {
+     this.setState({ modal: false });
+     this.redirect(requirement);
+    });
+
+  }
 
   saveCat(event) {
     event.preventDefault();
@@ -58,9 +99,20 @@ class ClientsPage extends React.Component {
     });
 
   }
+  handleReqModalOpen(id) {
+    console.log(id+'viay');
+    //let req= Object.assign([], this.state.requirement)
+    //req.id= id
+    this.setState({ requirement:{id:id}, reqmodal: true });
+  
+  }
+  handleReqModalClose() {
+		this.setState({ reqmodal: false });
+  }
 
 	handleModalOpen() {
-		this.setState({ modal: true });
+    this.setState({ modal: true , client: {name: '', type: '', phone: '', team: '', address: ''}});
+		
 //  browserHistory.push(`/clients/new`);
 	}
 	handleModalClose() {
@@ -94,7 +146,7 @@ handleMoreInfo(link ,client, e ){
     const candmoreinfo = this.props.candmoreinfo;
     return (
       <div >  
-          <ClientsContainer
+          <ClientsWrapper
           clients={clients}
           moreinfo={moreinfo}
           reqmoreinfo={reqmoreinfo}
@@ -104,6 +156,8 @@ handleMoreInfo(link ,client, e ){
           onDocuments={this.handleDocuments}
           onDelete={this.handleDeleteClient}
           onMoreInfo={this.handleMoreInfo}
+          handleModalOpen={this.handleModalOpen}
+          handleReqModalOpen={this.handleReqModalOpen}
           />
           <AddClientModal
             client={this.state.client}
@@ -112,7 +166,13 @@ handleMoreInfo(link ,client, e ){
             open={ this.state.modal }
             close={ this.handleModalClose }
           />
-              
+           <AddRequirementModal
+            requirement={this.state.requirement}
+            onSave={this.saveRequirement}
+            onChange={this.updateReqState}
+            open={ this.state.reqmodal }
+            close={ this.handleReqModalClose }
+          /> 
       </div>
     );
   }
@@ -129,6 +189,7 @@ ClientsPage.propTypes = {
   candmoreinfo: PropTypes.object.isRequired,
   candmoreinfoactions: PropTypes.object.isRequired,
   docmoreinfoactions:PropTypes.object.isRequired
+  
 
 };
 

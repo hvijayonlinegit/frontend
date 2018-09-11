@@ -1,3 +1,4 @@
+import * as apiurl  from '../common/apiURL';
 
 class DocumentsApi {
 
@@ -5,7 +6,7 @@ class DocumentsApi {
     //const PROD_URL = `https://peaceful-mesa-72076.herokuapp.com/accounts`
     //const BASE_URL = `http://localhost:8090`
     //const BASE_URL = `https://peaceful-mesa-72076.herokuapp.com`
-    const request = new Request(link, {
+    const request = new Request(apiurl.BASE_URL+`/list`, {
       method: 'GET',
       headers: new Headers({
         'Content-Type': 'application/json',
@@ -14,7 +15,6 @@ class DocumentsApi {
         'Authorization':' Bearer ' + localStorage.getItem('token')
       })
     });
-
     return fetch(request).then(response => {
       return response.json();
     }).catch(error => {
@@ -23,10 +23,10 @@ class DocumentsApi {
   }
   static download(link, client) {
     //const BASE_URL = `http://localhost:8090`
-   const BASE_URL = `https://peaceful-mesa-72076.herokuapp.com`
+    //const BASE_URL = `https://peaceful-mesa-72076.herokuapp.com`
     console.log('inside the get candidate'+link+client)
     // eslint-disable-next-line
-    const request = new Request(BASE_URL+`/download`+'?id='+link+'&key='+client, {
+    const request = new Request(apiurl.BASE_URL+`/download`+'?id='+link+'&key='+client, {
       method: 'GET',
       headers: new Headers({
         'responseType': 'blob',

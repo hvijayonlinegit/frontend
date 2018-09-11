@@ -1,9 +1,6 @@
 
+import * as apiurl  from '../common/apiURL';
 
-// fetch("/login", {
-//   method: "POST",
-//   body: form
-// })
 
 class clientsApi {
   
@@ -11,12 +8,14 @@ class clientsApi {
     //const PROD_URL = `https://peaceful-mesa-72076.herokuapp.com/accounts`
     //const BASE_URL = `http://192.168.0.17:8090/accounts`
    // const BASE_URL = `http://localhost:8090/synergy/api`
-   const BASE_URL = 'https://peaceful-mesa-72076.herokuapp.com/synergy/api'
-    const request = new Request(BASE_URL+`/accountses`, {
+   //const BASE_URL = 'https://peaceful-mesa-72076.herokuapp.com/synergy/api'
+    const request = new Request(apiurl.BASE_URL+`/synergy/api/accountses`, {
       method: 'GET',
       headers: new Headers({
         'Content-Type': 'application/json',
-        'origins':'*'
+        'origins':'*',
+        // eslint-disable-next-line
+        'Authorization':' Bearer ' + localStorage.getItem('token')
       })
     });
 
@@ -46,13 +45,15 @@ class clientsApi {
   }
 
   static createCat(client) {
-    const BASE_URL = `https://peaceful-mesa-72076.herokuapp.com/synergy/api`
+    //const BASE_URL = 'https://peaceful-mesa-72076.herokuapp.com/synergy/api'
+    //const BASE_URL = `http://localhost:8090/synergy/api`
     console.log(client.account_team)
-    const request = new Request(BASE_URL+`/accountses`, {
+    const request = new Request(apiurl.BASE_URL+`/synergy/api/accountses`, {
       method: 'POST',
       headers: new Headers({
         'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization':' Bearer ' + localStorage.getItem('token')
       }),
       body: JSON.stringify(client)
     });
@@ -83,7 +84,8 @@ class clientsApi {
     const request = new Request(link, {
       method: 'GET',
       headers: new Headers({
-        'Accept': 'application/json'
+        'Accept': 'application/json',
+        'Authorization':' Bearer ' + localStorage.getItem('token')
       })
     });
 

@@ -4,11 +4,12 @@ import { withStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-
+import Tooltip from '@material-ui/core/Tooltip';
+import TextField from '@material-ui/core/TextField';
 //Spinner Imports
 import { Loader } from 'react-overlay-loader';
 import 'react-overlay-loader/styles.css';
-import TextField from '@material-ui/core/TextField';
+
 
 import {white, blue500} from '@material-ui/core/colors/';
 import Button from '@material-ui/core/Button';
@@ -17,20 +18,20 @@ import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 
 const styles = theme => ({
-  active: {
-    backgroundColor: 'red',
-  },
+ root: {
+  maxHeight: '37vh',
+    overflow: 'auto',
+    minHeight: '37vh'
+ },
   button: {
     margin: theme.spacing.unit,
+    marginLeft: '24%'
   },
-  
-  menuItem: {
-    '&:focus': {
-      backgroundColor: theme.palette.primary.main,
-      '& $primary, & $icon': {
-        color: theme.palette.common.white,
-      },
-    },
+  lightTooltip: {
+    background: theme.palette.common.white,
+    color: theme.palette.text.primary,
+    boxShadow: theme.shadows[1],
+    fontSize: 11,
   },
 });
 
@@ -50,16 +51,23 @@ updateSearch(event){
     this.setState({indexOfClickedItem: index});
     this.props.onMoreInfo(link, n);
   }
-  
+  handleModalOpen(){
+    this.props.handleModalOpen();
+  }
   render() {
     const { classes, to } = this.props;
     
     const styles = {
       listItem: {
+        // paddingBottom: '5px',
+        // paddingTop: '5px'
     },
     listItemClicked: {
-      backgroundColor: '#f0f8ff',
-      borderBottom: '1px solid red'
+      border: '1px solid lightgreen',
+      //borderBottom: '2px solid gray',
+      paddingTop: '5px',
+      paddingBottom: '5px',
+      borderLeft: '12px solid lightgreen'
     },
     textField: {
       color: white,
@@ -78,7 +86,10 @@ updateSearch(event){
         );
       }
     else{
-      let filteredClients= this.props.clients.accountses.filter(
+      let sortedClients = this.props.clients.accountses.sort(
+        (a,b)=> Number(b._links.self.href.split('/').pop(-1)) - Number(a._links.self.href.split('/').pop(-1))
+      );
+      let filteredClients= sortedClients.filter(
         (client) =>{
           const selflink= client._links.self.href
           const id = selflink.split('/').pop(-1);
@@ -93,7 +104,7 @@ updateSearch(event){
   
       );
     return (
-        <div>
+        <div >
           <TextField
             hintText="Search..."
             placeholder="Search..."
@@ -105,11 +116,13 @@ updateSearch(event){
             hintStyle={styles.hintStyle}
             onChange={this.updateSearch.bind(this)}
             />
-            <Button variant="fab" mini color="primary" aria-label="Add" className={classes.button}>
-              <AddIcon />
-            </Button>
+            <Tooltip title="Add a Client" classes={{ tooltip: classes.lightTooltip }}>
+              <Button variant="fab" mini color="primary" aria-label="Add" className={classes.button} onClick={ this.props.handleModalOpen } >
+                <AddIcon />
+              </Button>
+            </Tooltip>
         {/* <input type="text" value={this.state.search} onChange={this.updateSearch.bind(this)}/> */}
-          <List component="div" disablePadding>
+          <List component="div" disablePadding className={classes.root}>
               {
                   filteredClients.map((n,index) => {
                   const link= n._links.requirements.href
@@ -123,11 +136,11 @@ updateSearch(event){
                     <div>
                       <ListItem button={true} style= {this.state.indexOfClickedItem === index ? styles.listItemClicked : styles.listItem} to={to}  key= {id} divider= {true} onClick={boundMoreInfo} >
                         {/* <ListItemText primary={n.name} secondary={clientid} /> */}
-                        <ListItemText  primary= {id}/>
+                        <ListItemText color="inherit" primary= {id}/>
                         <ListItemText  primary= {n.name} />
-                        <IconButton className={classes.button} aria-label="Delete" disabled color="primary">
+                        {/* <IconButton className={classes.button} aria-label="Delete" disabled color="primary">
                           <DeleteIcon />
-                        </IconButton>
+                        </IconButton> */}
                       </ListItem>
                       
                     </div>
@@ -142,6 +155,7 @@ updateSearch(event){
 }
 NestedList.propTypes = {
   clients: PropTypes.object.isRequired,
-  onMoreInfo: PropTypes.func.isRequired
+  onMoreInfo: PropTypes.func.isRequired,
+  handleModalOpen: PropTypes.func.isRequired
 };
 export default withStyles(styles)(NestedList);

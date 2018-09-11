@@ -2,18 +2,20 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
+import Card from '@material-ui/core/Card';
+import CardHeader from '@material-ui/core/CardHeader';
+import MySnackbarContentWrapper from '../../common/MySnackContent';
+
 // import Button from '@material-ui/core/Button';
 // import Save from '@material-ui/icons/Save';
 // import classNames from 'classnames';
 const styles = theme => ({
-    root: {
-        width: '100%',
-       // height: '100vh',
-        backgroundColor: theme.palette.background.paper,
-        borderLeft: '1px solid rgba(0, 0, 0, 0.12)',
-        overflowY:'auto',
-       
-      },
+  root: {
+      width: '100%',
+      overflowY:'auto',
+      maxHeight: '50vh',
+    },
   container: {
     display: 'flex',
     flexWrap: 'wrap',
@@ -54,6 +56,9 @@ const styles = theme => ({
   padder: {
       paddingLeft: '10px',
   },
+  card:{
+    border: '1px dotted grey'
+  }
 });
 
 
@@ -79,30 +84,38 @@ class TextFields extends React.Component {
       }
     
       if(isEmpty(this.props.requirements.candidates)){
-        return (<div> something went wrong</div>);
+        return (
+
+          <MySnackbarContentWrapper
+          variant="info"
+          className={classes.margin}
+          message="There are no Requirements to Show , Please click/add a requirement!"
+        />
+                );
       }
       else{
         return (
             <div className={classes.root}>
+           
               <form className={classes.container} noValidate autoComplete="off">
-              {/* <h4 className={classes.header}>requirement Details: </h4> */}
+             
               <div className={classes.padder}>
               <TextField
                      margin="dense"
                      placeholder="Enter requirement name"
                      name="account_name"
-                     label="name"
+                     label="Title"
                      fullWidth
                      className={classes.textField}
-                     value = { this.props.requirements.id }
+                     value = { this.props.requirements.title }
                      onChange={ this.handleChange('name')} />
                 
                 
                 <TextField
                         id="name"
-                        label="phone"
+                        label="Type"
                         className={classes.textField}
-                        value={ this.props.requirements.title }
+                        value={ this.props.requirements.type }
                         onChange={ this.handleChange('name')} 
                         margin="normal"
                     />
@@ -111,7 +124,7 @@ class TextFields extends React.Component {
                      margin="dense"
                      placeholder="Enter requirements type"
                      name="account_type"
-                     label="address"
+                     label="Description"
                      fullWidth
                      className={classes.textField}
                      value={ this.props.requirements.description }
@@ -123,7 +136,7 @@ class TextFields extends React.Component {
                      margin="dense"
                      placeholder="Enter requirements phone"
                      name="account_phone"
-                     label="Phone"
+                     label="Rate"
                      fullWidth
                      className={classes.textField}
                      value={ this.props.requirements.rate }
@@ -132,7 +145,7 @@ class TextFields extends React.Component {
                      margin="dense"
                      placeholder="Enter requirements team"
                      name="account_team"
-                     label="Team"
+                     label="Primary Skills"
                      fullWidth
                      className={classes.textField}
                      value={ this.props.requirements.primary_skills }
@@ -141,10 +154,55 @@ class TextFields extends React.Component {
                      margin="dense"
                      placeholder="Enter requirements Address"
                      name="account_address"
-                     label="type"
+                     label="Secondary Skills"
                      fullWidth
                      className={classes.textField}
                      value={ this.props.requirements.secondary_skills }
+                     onChange={ this.handleChange('name')}  />
+                    <TextField
+                     margin="dense"
+                     placeholder="Enter requirements Address"
+                     name="account_address"
+                     label="Account Manager "
+                     fullWidth
+                     className={classes.textField}
+                     value={ this.props.requirements.account_manager }
+                     onChange={ this.handleChange('name')}  />
+                     <TextField
+                     margin="dense"
+                     placeholder="Enter requirements Address"
+                     name="account_address"
+                     label="Seniority Level "
+                     fullWidth
+                     className={classes.textField}
+                     value={ this.props.requirements.seniority_level }
+                     onChange={ this.handleChange('name')}  />
+                      <TextField
+                     margin="dense"
+                     placeholder="Enter requirements Address"
+                     name="account_address"
+                     label="Experience Required "
+                     fullWidth
+                     className={classes.textField}
+                     value={ this.props.requirements.exp_required }
+                     onChange={ this.handleChange('name')}  />
+                     <TextField
+                     margin="dense"
+                     placeholder="Enter requirements Address"
+                     name="account_address"
+                     label="Candidate Availability"
+                     fullWidth
+                     className={classes.textField}
+                     value={ this.props.requirements.candidate_availability }
+                     onChange={ this.handleChange('name')}  />
+                     <TextField
+                     margin="dense"
+                     placeholder="Enter requirements Address"
+                     name="account_address"
+                     label="Pay Rate"
+                     fullWidth
+                     className={classes.textField}
+                     value={ this.props.requirements.pay_rate }
                      onChange={ this.handleChange('name')}  />
                      
                </div>
@@ -156,6 +214,7 @@ class TextFields extends React.Component {
                             fffSave
                         </Button> */}
               </form>
+           
              </div>
             );
       }

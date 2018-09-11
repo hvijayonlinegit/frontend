@@ -1,14 +1,14 @@
 import React from 'react'
 
 import {connect} from 'react-redux'
-import RequirementsList from './RequirementsList'
+import RequirementsList from '../components/requirements/RequirementList'
 import PropTypes from 'prop-types';
 
 import Hidden from '@material-ui/core/Hidden';
 
 import {bindActionCreators} from 'redux';
 
-import * as requirementActions from '../../actions/requirementActions';
+import * as requirementActions from '../actions/requirementActions';
 class RequirementsPage extends React.Component {
 
   constructor(props) {

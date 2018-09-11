@@ -8,6 +8,12 @@ export default function candmoreinfoReducer(state = initialState.clients.candmor
       clientState.candidate =  action.client
      // browserHistory.push('/clients')
       return clientState
+      case types.LOAD_CAND_MOREINFO_FAILURE:
+      const clientState1 = Object.assign([], state)
+      clientState1.candidate =  {
+        documents: [],
+      }
+      return clientState1
     default:
       return state;
   }

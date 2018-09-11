@@ -4,6 +4,9 @@ import documentsApi from '../api/documentsApi';
 export function loadCandMoreInfoSuccess(client){
   return {type: types.LOAD_CAND_MOREINFO_SUCCESS, client};
 }
+export function loadCandMoreinfofailure(){
+  return {type: types.LOAD_CAND_MOREINFO_FAILURE};
+}
 export function loadCandMoreinfo(link, client) {
   return function(dispatch) {
     console.log('calling link'+ link);

@@ -1,8 +1,6 @@
 import React, { PureComponent } from 'react';
 import { withStyles } from '@material-ui/core/styles';
- import { reduxForm } from 'redux-form';
-// import * as actions from '../../actions/authenticationActions';
-// import { connect } from 'react-redux';
+import { reduxForm } from 'redux-form';
 import { compose } from 'redux'
 //Material Imports
 import TextField from '@material-ui/core/TextField';
@@ -83,7 +81,7 @@ const styles = theme =>( {
                     <Card className={classes.card}>
                     
                         <CardContent>
-                            <Typography className={classes.title} color="textSecondary">
+                            <Typography variant="headline">
                                 Sign up
                             </Typography>
                 <form onSubmit={handleSubmit(this.props.onSubmit.bind(this))}>
@@ -138,10 +136,14 @@ const styles = theme =>( {
                     
                     {this.renderError()}
                     <CardActions>
-                    <Button variant="contained"  size="large" className={classes.button} color="primary" disabled={submitting} onClick={this.props.onSubmit}>Sign Up</Button>
+                    {/* <Button variant="contained"  size="large" className={classes.button} color="primary" disabled={submitting} onClick={this.props.onSubmit}>Sign Up</Button> */}
                 </CardActions>
                     <Loader fullPage loading={this.props.spinner} />
                 </form>
+                <Button  variant="raised"
+                  color="primary" className={classes.submit} fullWidth disabled={submitting} onClick={this.props.onSubmit}>
+                    SignUp
+                </Button>
                  </CardContent>
              </Card>
             </Grid>

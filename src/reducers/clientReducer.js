@@ -8,11 +8,15 @@ export default function catReducer(state = initialState.clients.accountses, acti
   switch(action.type) {
     case types.LOAD_CATS_SUCCESS:
     return Object.assign({}, state, action.clients)
-
+    case types.LOAD_CATS_FAILURE:
+    browserHistory.push(`/500`)
+    case types.UNAUTH_SIGNIN_PAGE:
+    browserHistory.push('/signin')
+    return state
     case types.CREATE_CAT_SUCCESS:
       const newState = Object.assign([], state)
       newState.accountses.push(action.cat)
-      browserHistory.push(`/clients`)
+      browserHistory.push(`/`)
       return newState
     case types.UPDATE_CAT_SUCCESS:
       return [

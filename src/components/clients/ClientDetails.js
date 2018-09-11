@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-// import Button from '@material-ui/core/Button';
+// import Typography from '@material-ui/core/Typography';
 // import Save from '@material-ui/icons/Save';
 // import classNames from 'classnames';
 const styles = theme => ({
@@ -10,8 +10,10 @@ const styles = theme => ({
         width: '100%',
        // height: '100vh',
         backgroundColor: theme.palette.background.paper,
-        borderLeft: '1px solid rgba(0, 0, 0, 0.12)',
+        //borderLeft: '1px solid rgba(0, 0, 0, 0.12)',
         overflowY:'auto',
+        maxHeight: '50vh',
+        minHeight: '50vh'
        
       },
   container: {
@@ -54,6 +56,9 @@ const styles = theme => ({
   padder: {
       paddingLeft: '10px',
   },
+  float: {
+     float: 'right'
+  },
 });
 
 
@@ -71,7 +76,7 @@ class TextFields extends React.Component {
       [name]: event.target.value,
     });
   };
-
+  
   render() {
     const { classes } = this.props;
     function isEmpty(obj) {
@@ -82,11 +87,26 @@ class TextFields extends React.Component {
         return (<div> something went wrong</div>);
       }
       else{
+        const selflink= this.props.moreinfo.client._links.self.href
+        const id = selflink.split('/').pop(-1);
+        console.log('details' +id);
         return (
             <div className={classes.root}>
               <form className={classes.container} noValidate autoComplete="off">
               {/* <h4 className={classes.header}>Client Details: </h4> */}
               <div className={classes.padder}>
+              {/* <Typography variant="Subheading"   >Name:</Typography>
+              <Typography variant="body1"   className={classes.float}>{ this.props.moreinfo.client.name }</Typography>
+              <Typography variant="Subheading"  className={classes.heading} >Phone:</Typography>
+              <Typography variant="body1"  className={classes.heading} >{ this.props.moreinfo.client.phone }</Typography>
+              <Typography variant="Subheading"  className={classes.heading} >Address:</Typography>
+              <Typography variant="body1"  className={classes.heading} >{ this.props.moreinfo.client.address }</Typography>
+              <Typography variant="Subheading"  className={classes.heading} >Team:</Typography>
+              <Typography variant="body1"  className={classes.heading} >{ this.props.moreinfo.client.team }</Typography>
+              
+              <Typography variant="Subheading"  className={classes.heading} >Type:</Typography>
+              <Typography variant="body1"  className={classes.heading} >{ this.props.moreinfo.client.type }</Typography>
+               */}
               <TextField
                      margin="dense"
                      placeholder="Enter Client name"
@@ -117,17 +137,6 @@ class TextFields extends React.Component {
                      value={ this.props.moreinfo.client.address }
                      onChange={ this.handleChange('name')} />
                     
-                    
-        
-                    <TextField
-                     margin="dense"
-                     placeholder="Enter Client phone"
-                     name="account_phone"
-                     label="Phone"
-                     fullWidth
-                     className={classes.textField}
-                     value={ this.props.moreinfo.client.phone }
-                     onChange={ this.handleChange('name')}  />
                     <TextField
                      margin="dense"
                      placeholder="Enter Client team"
@@ -156,6 +165,9 @@ class TextFields extends React.Component {
                             Save
                         </Button> */}
               </form>
+                {/* <Button variant="contained" value= {id } className={classes.button} onClick={() => this.props.handleReqModalOpen(id)}>
+                  Add requirement
+                </Button> */}
              </div>
             );
       }
@@ -166,6 +178,7 @@ class TextFields extends React.Component {
 TextFields.propTypes = {
   classes: PropTypes.object.isRequired,
   moreinfo: PropTypes.object.isRequired,
+ 
 };
 
 export default withStyles(styles)(TextFields);

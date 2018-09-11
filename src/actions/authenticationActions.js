@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { browserHistory} from 'react-router';
+import * as apiurl  from '../common/apiURL';
 import {
     AUTH_USER,
     UNAUTH_USER,
@@ -7,8 +8,8 @@ import {
     FETCH_FEATURE
 } from './actionTypes';
 
- //const ROOT_URL = 'http://localhost:8090';
-const ROOT_URL = 'https://peaceful-mesa-72076.herokuapp.com';
+ //const ROOT_URL = apiurl.BASE_URL;
+//const ROOT_URL = 'https://peaceful-mesa-72076.herokuapp.com';
 export const signinUser = ({ usernameOrEmail, password }) => {
     return (dispatch) => {
         const requestOptions = {
@@ -17,7 +18,7 @@ export const signinUser = ({ usernameOrEmail, password }) => {
             body: JSON.stringify({ usernameOrEmail, password })
         };
         // submit email/password to the server
-        return fetch(`${ROOT_URL}/api/auth/signin`, requestOptions)
+        return fetch(`${apiurl.BASE_URL}/api/auth/signin`, requestOptions)
             .then(handleResponse)
             .then(user => {
 
@@ -53,7 +54,7 @@ export const signupUser = ({ email,name, password, username }) => {
             body: JSON.stringify({ email,name, password, username  })
         };
         // submit email/password to the server
-        return fetch(`${ROOT_URL}/api/auth/signup`, requestOptions)
+        return fetch(`${apiurl.BASE_URL}/api/auth/signup`, requestOptions)
             .then(handleResponse)
             .then(response => {
                 dispatch({ type: AUTH_USER });
@@ -80,7 +81,7 @@ export const signoutUser = () => {
 
 export const fetchFeature = () => {
     return (dispatch) => {
-        axios.get(`${ROOT_URL}/user/me`, {
+        axios.get(`${apiurl.BASE_URL}/user/me`, {
             headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') }
           // headers: { 'Authorization': 'Bearer ' + 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIzIiwiaWF0IjoxNTM0MDA4MTU2LCJleHAiOjE1MzQ2MTI5NTZ9.1IDDb_5O-GPhVYO0OMHlXNqTVz5qiV1pNZ46PKujlbxVaHZnKhZDhun5Bw_gguKC2LHiF7c7ZaJTNibg8_VeqQ'}
         })

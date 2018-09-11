@@ -2,7 +2,7 @@ import React from 'react'
 
 import {connect} from 'react-redux'
 
-import CandidatesList from './CandidatesList'
+import CandidatesList from '../components/candidates/CandidateList'
 import PropTypes from 'prop-types';
 
 
@@ -10,7 +10,7 @@ import Hidden from '@material-ui/core/Hidden';
 
 import {bindActionCreators} from 'redux';
 
-import * as candidateActions from '../../actions/candidateActions';
+import * as candidateActions from '../actions/candidateActions';
 class CandidatesPage extends React.Component {
 
   constructor(props) {

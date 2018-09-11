@@ -4,7 +4,12 @@ import * as moreinfoActions from '../actions/moreinfoActions';
 export function loadCatsSuccess(clients, self) {
   return {type: types.LOAD_CATS_SUCCESS, clients , self};
 }
-
+export function loadCatsFailure(clients, self) {
+  return {type: types.LOAD_CATS_FAILURE, clients , self};
+}
+export function loadSignInPage(){
+  return {type: types.UNAUTH_SIGNIN_PAGE};
+}
 export function updateCatSuccess(cat) {
   return {type: types.UPDATE_CAT_SUCCESS, cat}
 }
@@ -27,8 +32,12 @@ export function loadClients() {
   // make async call to api, handle promise, dispatch action when promise is resolved
   return function(dispatch) {
     return clientsApi.getAllClients().then(clients => {
-    // Code changes for default loading
-        clients._embedded.accountses.map((n,index) => {
+      if(!clients.message){
+        // Code changes for default loading
+        let sortedClients = clients._embedded.accountses.sort(
+          (a,b)=> Number(b._links.self.href.split('/').pop(-1)) - Number(a._links.self.href.split('/').pop(-1))
+        );
+        sortedClients.map((n,index) => {
           const link= n._links.requirements.href
           if(index ===0){
             dispatch(moreinfoActions.loadMoreinfo(link, n));
@@ -38,6 +47,18 @@ export function loadClients() {
         }
       );
       dispatch(loadCatsSuccess(clients._embedded));
+      }else{
+        if(clients.status === 401){
+          dispatch(loadSignInPage())
+        }
+        if(clients.status === 500)
+        {
+          dispatch(loadCatsFailure(clients.message))
+        }
+        dispatch(loadCatsFailure(clients.message))
+        
+      }
+    
     }).catch(error => {
       throw(error);
     });
@@ -81,8 +102,16 @@ export function updateCat(cat) {
 export function createCat(client) {
   return function (dispatch) {
     return clientsApi.createCat(client).then(responseCat => {
-      dispatch(createCatSuccess(responseCat));
-      return responseCat;
+      if(!responseCat.message){
+        const link= responseCat._links.requirements.href
+        dispatch(moreinfoActions.loadMoreinfo(link, responseCat));
+        dispatch(createCatSuccess(responseCat));
+      }
+      else{
+        dispatch(loadCatsFailure(responseCat.message))
+      }
+     
+      //return responseCat;
     }).catch(error => {
       throw(error);
     });
