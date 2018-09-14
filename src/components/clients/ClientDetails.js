@@ -93,20 +93,8 @@ class TextFields extends React.Component {
         return (
             <div className={classes.root}>
               <form className={classes.container} noValidate autoComplete="off">
-              {/* <h4 className={classes.header}>Client Details: </h4> */}
-              <div className={classes.padder}>
-              {/* <Typography variant="Subheading"   >Name:</Typography>
-              <Typography variant="body1"   className={classes.float}>{ this.props.moreinfo.client.name }</Typography>
-              <Typography variant="Subheading"  className={classes.heading} >Phone:</Typography>
-              <Typography variant="body1"  className={classes.heading} >{ this.props.moreinfo.client.phone }</Typography>
-              <Typography variant="Subheading"  className={classes.heading} >Address:</Typography>
-              <Typography variant="body1"  className={classes.heading} >{ this.props.moreinfo.client.address }</Typography>
-              <Typography variant="Subheading"  className={classes.heading} >Team:</Typography>
-              <Typography variant="body1"  className={classes.heading} >{ this.props.moreinfo.client.team }</Typography>
               
-              <Typography variant="Subheading"  className={classes.heading} >Type:</Typography>
-              <Typography variant="body1"  className={classes.heading} >{ this.props.moreinfo.client.type }</Typography>
-               */}
+              <div className={classes.padder}>
               <TextField
                      margin="dense"
                      placeholder="Enter Client name"

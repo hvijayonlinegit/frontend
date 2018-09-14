@@ -14,11 +14,21 @@ class Signin extends React.Component {
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
         this.updateSigninState = this.updateSigninState.bind(this);
     }
-    handleFormSubmit() {
-        this.setState({ loading: true });
-        this.props.signinUser(this.state.signin)
+    handleFormSubmit(event) {
+        
+        console.log(this.state.signin.usernameOrEmail+ this.state.password)
+        if(this.state.signin.usernameOrEmail === '' || this.state.signin.password === ''){
+            
+        }
+        else{
+            event.preventDefault();
+            this.setState({ loading: true });
+            this.props.signinUser(this.state.signin)
+        }
+        
     }
     updateSigninState(event) {
+       // event.preventDefault();
         const field = event.target.name;
         const signin = this.state.signin;
         console.log(field+event.target.value);

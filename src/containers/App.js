@@ -12,7 +12,9 @@ import Tab from '@material-ui/core/Tab';
 import Button from '@material-ui/core/Button';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import ExpandMore from '@material-ui/icons/ExpandMore';
-import PowerSettingsNew from '@material-ui/icons/PowerSettingsNew';
+import ExitToApp from '@material-ui/icons/ExitToApp'
+
+
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 
@@ -24,6 +26,9 @@ import { compose } from '../../node_modules/redux';
 import 'font-awesome/css/font-awesome.min.css';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import theme from '../components/theme';
+import * as authenticationActions from '../actions/authenticationActions';
+
+import {bindActionCreators} from 'redux';
 const drawerWidth = 240;
 
 const styles = theme => ({
@@ -104,7 +109,7 @@ const styles = theme => ({
     
   },
   user: {
-    width: '100px',
+    width: 'auto',
   }
   
 });
@@ -125,7 +130,9 @@ class App extends React.Component {
     this.handleLogout = this.handleLogout.bind(this);
   }
   
-  
+  componentWillMount(){
+    //this.props.actions.fetchUser();
+  }
   handleChange = (event, value) => {
     this.setState({ value });
     switch(value) {
@@ -145,6 +152,7 @@ class App extends React.Component {
         browserHistory.push(`/`);
       }
   };
+  
   handleLogout =() =>{
     browserHistory.push(`/signout`);
   }
@@ -184,6 +192,8 @@ class App extends React.Component {
     const { classes } = this.props;
       const { value } = this.state;
       const {  anchorEl  } = this.state;
+     let username = this.props.userdetails;
+      console.log(username+'>>>>>')
     const open = Boolean(anchorEl);
     return (
       <MuiThemeProvider theme={theme}>
@@ -220,7 +230,7 @@ class App extends React.Component {
         )
       }
             {
-          !this.props.authenticated ? ( 
+          (!this.props.userdetails && !this.props.authenticated )? ( 
             <div>
               
            <Button onClick={this.handleSignin} color="inherit">
@@ -231,6 +241,7 @@ class App extends React.Component {
            </div>
           ):(
             <div>
+              
                 <IconButton
                     color="inherit"
                   >
@@ -241,8 +252,9 @@ class App extends React.Component {
                     label="true"
                     className={classes.user}
                   >
+                  
                 <Typography variant="caption" noWrap = "true" color="inherit" >
-                  Rajesh Nettem
+                  Welcome {this.props.userdetails} 
                  </Typography>
                 </IconButton>
                 <IconButton
@@ -257,7 +269,7 @@ class App extends React.Component {
                   onClick={this.handleLogout}
                   color="inherit"
                 >
-                  <PowerSettingsNew />
+                  <ExitToApp />
                 </IconButton>
                 <Menu
                   id="menu-appbar"
@@ -301,12 +313,13 @@ function mapStateToProps(state, ownProps) {
   return {
     clients: state.clients,
     moreinfo : state.moreinfo,
-    authenticated: state.auth.authenticated
+    authenticated: state.auth.authenticated,
+    userdetails: state.auth.userdetails
   };
 }
 function mapDispatchToProps(dispatch) {
   return {
-    //actions: bindActionCreators(userActions, dispatch)
+    actions: bindActionCreators(authenticationActions, dispatch)
   };
 }
 export default compose(

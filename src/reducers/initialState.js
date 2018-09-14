@@ -19,5 +19,6 @@ export default {
   },
   requirements: {},
   candidates : {},
-  selectedRequirement:{}
+  selectedRequirement:{},
+  auth:{}
 }

@@ -9,6 +9,7 @@ import Signin from './containers/auth/signin';
 import Signout from './containers/auth/signout';
 import Signup from './containers/auth/signup';
 import ServerErrorPage from './common/ServerErrorPage'
+import RequireAdminAccess from './common/RequireAdminAccess'
 export default (
   <div>
     <Switch>
@@ -22,6 +23,7 @@ export default (
         <Route path="/candidates" component = {CandidatesPage}></Route>
       </Route> 
       <Route path="/500" component={ServerErrorPage}/>
+      <Route path="/adminaccess" component ={RequireAdminAccess}/>
     </Switch>
   </div>
 );

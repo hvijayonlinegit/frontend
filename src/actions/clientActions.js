@@ -10,6 +10,9 @@ export function loadCatsFailure(clients, self) {
 export function loadSignInPage(){
   return {type: types.UNAUTH_SIGNIN_PAGE};
 }
+export function loadNeedAdminAccess(){
+  return {type: types.REQUIRE_ADMIN_ACCESS}
+}
 export function updateCatSuccess(cat) {
   return {type: types.UPDATE_CAT_SUCCESS, cat}
 }

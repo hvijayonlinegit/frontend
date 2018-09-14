@@ -5,7 +5,7 @@ import {
     AUTH_USER,
     UNAUTH_USER,
     AUTH_ERROR,
-    FETCH_FEATURE
+    FETCH_USER
 } from './actionTypes';
 
  //const ROOT_URL = apiurl.BASE_URL;
@@ -24,11 +24,13 @@ export const signinUser = ({ usernameOrEmail, password }) => {
 
                 // if request is good...
                 // - update state to indicate user is authenticated
+                //fetchUser();
                 dispatch({ type: AUTH_USER });
                 if (user) {
                     // store user details and jwt token in local storage to keep user logged in between page refreshes
                     let token = user.accessToken.toString();
                     localStorage.setItem('token', token);
+                    //fetchUser();
                 }
                 
                 // - save the jwt token
@@ -67,6 +69,7 @@ export const signupUser = ({ email,name, password, username }) => {
     };
 };
 
+
 export const authError = (error) => {
     return {
         type: AUTH_ERROR,
@@ -79,16 +82,20 @@ export const signoutUser = () => {
     return { type: UNAUTH_USER };
 };
 
-export const fetchFeature = () => {
+export const fetchUser = () => {
     return (dispatch) => {
-        axios.get(`${apiurl.BASE_URL}/user/me`, {
+        return fetch(`${apiurl.BASE_URL}/user/me`, {
+            method: 'GET',
             headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') }
           // headers: { 'Authorization': 'Bearer ' + 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIzIiwiaWF0IjoxNTM0MDA4MTU2LCJleHAiOjE1MzQ2MTI5NTZ9.1IDDb_5O-GPhVYO0OMHlXNqTVz5qiV1pNZ46PKujlbxVaHZnKhZDhun5Bw_gguKC2LHiF7c7ZaJTNibg8_VeqQ'}
         })
+        .then(handleResponse)
         .then(response =>{
+            console.log('setting respone '+response.name);
             dispatch({
-                type: FETCH_FEATURE,
-                payload: response.data
+                
+                type: FETCH_USER,
+                payload: response
              });
         });
     };

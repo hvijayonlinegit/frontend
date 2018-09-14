@@ -8,6 +8,8 @@ export default function catReducer(state = initialState.clients.accountses, acti
   switch(action.type) {
     case types.LOAD_CATS_SUCCESS:
     return Object.assign({}, state, action.clients)
+    case types.REQUIRE_ADMIN_ACCESS:
+    browserHistory.push(`/adminaccess`)
     case types.LOAD_CATS_FAILURE:
     browserHistory.push(`/500`)
     case types.UNAUTH_SIGNIN_PAGE:
