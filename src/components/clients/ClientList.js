@@ -86,9 +86,11 @@ updateSearch(event){
         );
       }
     else{
+      // sort the list to show recently added client at the top
       let sortedClients = this.props.clients.accountses.sort(
         (a,b)=> Number(b._links.self.href.split('/').pop(-1)) - Number(a._links.self.href.split('/').pop(-1))
       );
+      //Apply search filters to search by name or id for the client list
       let filteredClients= sortedClients.filter(
         (client) =>{
           const selflink= client._links.self.href

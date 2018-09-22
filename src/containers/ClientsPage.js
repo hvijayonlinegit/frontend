@@ -33,7 +33,9 @@ class ClientsPage extends React.Component {
 				secondary_skills: 'string',
 				seniority_level: 'string',
 				title: 'string',
-				type: 'string'
+        type: 'string',
+        accounts: '',
+        account_id:''
 			  },
       modal: false,
       reqmodal: false
@@ -84,7 +86,7 @@ class ClientsPage extends React.Component {
     event.preventDefault();
 
     this.props.moreinfoactions.createRequirement(this.state.requirement).then((requirement) => {
-     this.setState({ modal: false });
+     this.setState({ reqmodal: false });
      this.redirect(requirement);
     });
 
@@ -99,11 +101,12 @@ class ClientsPage extends React.Component {
     });
 
   }
-  handleReqModalOpen(id) {
+  handleReqModalOpen(link) {
     console.log(id+'viay');
+    let id = link.split('/').pop(-1);
     //let req= Object.assign([], this.state.requirement)
     //req.id= id
-    this.setState({ requirement:{id:id}, reqmodal: true });
+    this.setState({ requirement:{id:id, accounts:link, account_id:id }, reqmodal: true });
   
   }
   handleReqModalClose() {
@@ -158,6 +161,7 @@ handleMoreInfo(link ,client, e ){
           onMoreInfo={this.handleMoreInfo}
           handleModalOpen={this.handleModalOpen}
           handleReqModalOpen={this.handleReqModalOpen}
+          children ={this.props.children}
           />
           <AddClientModal
             client={this.state.client}

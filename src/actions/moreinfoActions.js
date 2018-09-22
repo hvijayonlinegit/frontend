@@ -22,7 +22,11 @@ export function loadMoreinfo(link, client) {
           dispatch(reqmoreinfoActions.loadReqMoreinfofailure());
           dispatch(candmoreinfoActions.loadCandMoreinfofailure());
         }else{
-          requirements._embedded.requirementses.map((n, index) =>{
+          // Code changes for default loading
+          let sortedRequirements = requirements._embedded.requirementses.sort(
+            (a,b)=> Number(b._links.self.href.split('/').pop(-1)) - Number(a._links.self.href.split('/').pop(-1))
+          );
+          sortedRequirements.map((n, index) =>{
             const link= n._links.candidates.href
             if(index ===0){
               dispatch(reqmoreinfoActions.loadReqMoreinfo(link, n));
@@ -59,13 +63,15 @@ export function createRequirement(requirement) {
   return function (dispatch) {
     return requirementsApi.createRequirement(requirement).then(response => {
       if(!response.message){
-        //dispatch(clientActions.loadClients());
-        //let link = apiurl.BASE_URL+'/synergy/api/accountses/'+requirement.id+'/requirements';
-        //dispatch(loadMoreinfo(link, response));
-        // dispatch(createRequirementSuccess(response));
+
+        const link= response._links.candidates.href;
+        dispatch(reqmoreinfoActions.loadReqMoreinfo(link, response));
+        dispatch(createRequirementSuccess(response));
+      }
+      else{
+       // dispatch(loadCatsFailure(response.message))
       }
       
-      //return response;
     }).catch(error => {
       throw(error);
     });

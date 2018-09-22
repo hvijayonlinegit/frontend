@@ -41,7 +41,7 @@ class RequirementsApi {
     //const BASE_URL = `http://localhost:8090/synergy/api`
    // console.log('create client'+requirement.account_id)
     let accountid= requirement.id
-    const request = new Request(apiurl.BASE_URL+`/accounts/`+accountid+'/requitements', {
+    const request = new Request(apiurl.BASE_URL+`/synergy/api/requirementses/`, {
       method: 'POST',
       headers: new Headers({
         'Accept': 'application/json',

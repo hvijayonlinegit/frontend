@@ -99,6 +99,7 @@ class SigninForm extends React.Component {
                       autoComplete="current-password"
                     />
                   </FormControl>
+                  {this.renderError()}
                   <Button
                     type="submit"
                     fullWidth

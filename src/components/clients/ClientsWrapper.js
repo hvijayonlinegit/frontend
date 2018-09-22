@@ -60,11 +60,11 @@ const styles = theme => ({
         backgroundColor: themes.palette.primary.main,
     },
     detailsborder: {
-        border: '1px solid lightgreen',
+        border: '1px solid grey',
         //borderLeft:'5px solid lightgreen'
     },
     detailsbordererror: {
-        border: '1px solid red',
+        border: '0.1px dotted black',
         //borderLeft:'5px solid lightgreen'
     },
     detailsborderwarn: {
@@ -73,7 +73,16 @@ const styles = theme => ({
     },
    detailspad :{
     paddingTop: '10px',
-   } 
+   } ,
+   beforeEle: {
+    '&::before':  {
+      marginTop: '2px',
+      borderLeft: '2px solid #698591',
+      display: 'block',
+      width: '30px',
+      content: '"Clients"'
+    },
+},
     
 });
 
@@ -114,7 +123,8 @@ class ExampleGrid extends React.Component {
                                             handleModalOpen={this.props.handleModalOpen}
                                         />
                                     </Grid>
-                                    <Grid item xs={12} sm={9} className={classes.detailsborder}>
+                                    <Grid item xs={12} sm={9} >
+                                        
                                         <ClientDetails moreinfo={this.props.moreinfo} ></ClientDetails>
                                     </Grid>
                                 </Grid>
@@ -138,7 +148,7 @@ class ExampleGrid extends React.Component {
                                             handleReqModalOpen={this.props.handleReqModalOpen}
                                         />
                                     </Grid>
-                                    <Grid item xs={12} sm={9} className={classes.detailsbordererror}>
+                                    <Grid item xs={12} sm={9} >
                                         <RequirementDetails 
                                         requirements={this.props.reqmoreinfo.requirement}
                                         ></RequirementDetails>

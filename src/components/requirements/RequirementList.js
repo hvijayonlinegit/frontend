@@ -75,7 +75,10 @@ class NestedList extends React.Component {
       );
     }
     else {
-      let filteredRequirements = this.props.requirements.requirementses.filter(
+      let sortedRequirements = this.props.requirements.requirementses.sort(
+        (a,b)=> Number(b._links.self.href.split('/').pop(-1)) - Number(a._links.self.href.split('/').pop(-1))
+      );
+      let filteredRequirements = sortedRequirements.filter(
         (requirement) => {
           const selflink = requirement._links.self.href
           const id = selflink.split('/').pop(-1);
@@ -104,7 +107,7 @@ class NestedList extends React.Component {
             onChange={this.updateSearch.bind(this)}
           />
           <Tooltip title="Add a Requirement" classes={{ tooltip: classes.lightTooltip }}>
-            <Button variant="fab" mini color="primary" aria-label="Add" className={classes.button} onClick={() => this.props.handleReqModalOpen(this.props.selectedclient._links.self.href.split('/').pop(-1))}  >
+            <Button variant="fab" mini color="primary" aria-label="Add" className={classes.button} onClick={() => this.props.handleReqModalOpen(this.props.selectedclient._links.self.href)}  >
               <AddIcon />
             </Button>
           </Tooltip>

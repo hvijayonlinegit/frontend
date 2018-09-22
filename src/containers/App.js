@@ -63,27 +63,7 @@ const styles = theme => ({
   hide: {
     display: 'none',
   },
-  drawerPaper: {
-    position: 'relative',
-
-    whiteSpace: 'nowrap',
-    width: drawerWidth,
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-  drawerPaperClose: {
-    overflowX: 'hidden',
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    width: theme.spacing.unit * 7,
-    [theme.breakpoints.up('sm')]: {
-      width: theme.spacing.unit * 9,
-    },
-  },
+  
   toolbar: {
     display: 'flex',
     alignItems: 'center',
@@ -99,14 +79,6 @@ const styles = theme => ({
   },
   flex: {
     flex: 1,
-  },
-  homeLink: {
-    textDecoration: 'inherit',
-    '&:hover': {
-      cursor: 'pointer',
-
-    },
-    
   },
   user: {
     width: 'auto',
@@ -132,6 +104,19 @@ class App extends React.Component {
   
   componentWillMount(){
     //this.props.actions.fetchUser();
+    this.renderUserName()
+  }
+  renderUserName() {
+
+    if (this.props.userdetails) {
+
+      return (
+        
+        <Typography variant="caption" noWrap = "true" color="inherit" >
+           Welcome {this.props.userdetails}
+          </Typography>
+      );
+    }
   }
   handleChange = (event, value) => {
     this.setState({ value });
@@ -253,9 +238,8 @@ class App extends React.Component {
                     className={classes.user}
                   >
                   
-                <Typography variant="caption" noWrap = "true" color="inherit" >
-                  Welcome {this.props.userdetails} 
-                 </Typography>
+                {this.renderUserName()} 
+                 
                 </IconButton>
                 <IconButton
                   aria-owns={open ? 'menu-appbar' : null}

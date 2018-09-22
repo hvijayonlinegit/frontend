@@ -59,7 +59,7 @@ export const signupUser = ({ email,name, password, username }) => {
         return fetch(`${apiurl.BASE_URL}/api/auth/signup`, requestOptions)
             .then(handleResponse)
             .then(response => {
-                dispatch({ type: AUTH_USER });
+                //dispatch({ type: AUTH_USER });
                 //localStorage.setItem('token', response.data.token);
                 browserHistory.push('/signin');
             })
